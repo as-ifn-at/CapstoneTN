@@ -5,4 +5,4 @@ export PATH=${PWD}/../bin:$PATH
 
 export FABRIC_CFG_PATH=$PWD/../config/
 
-./addOrgKro.sh
+./addOrg3kr.sh
