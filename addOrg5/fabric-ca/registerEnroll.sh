@@ -12,22 +12,22 @@ function createOrg5 {
 	export FABRIC_CA_CLIENT_HOME=${PWD}/../organizations/peerOrganizations/org5.example.com/
 
   set -x
-  fabric-ca-client enroll -u https://admin:adminpw@localhost:12054 --caname ca-org5 --tls.certfiles "${PWD}/fabric-ca/org5/tls-cert.pem"
+  fabric-ca-client enroll -u https://admin:adminpw@localhost:13054 --caname ca-org5 --tls.certfiles "${PWD}/fabric-ca/org5/tls-cert.pem"
   { set +x; } 2>/dev/null
 
   echo 'NodeOUs:
   Enable: true
   ClientOUIdentifier:
-    Certificate: cacerts/localhost-12054-ca-org5.pem
+    Certificate: cacerts/localhost-13054-ca-org5.pem
     OrganizationalUnitIdentifier: client
   PeerOUIdentifier:
-    Certificate: cacerts/localhost-12054-ca-org5.pem
+    Certificate: cacerts/localhost-13054-ca-org5.pem
     OrganizationalUnitIdentifier: peer
   AdminOUIdentifier:
-    Certificate: cacerts/localhost-12054-ca-org5.pem
+    Certificate: cacerts/localhost-13054-ca-org5.pem
     OrganizationalUnitIdentifier: admin
   OrdererOUIdentifier:
-    Certificate: cacerts/localhost-12054-ca-org5.pem
+    Certificate: cacerts/localhost-13054-ca-org5.pem
     OrganizationalUnitIdentifier: orderer' > "${PWD}/../organizations/peerOrganizations/org5.example.com/msp/config.yaml"
 
 	infoln "Registering peer0"
@@ -47,14 +47,14 @@ function createOrg5 {
 
   infoln "Generating the peer0 msp"
   set -x
-	fabric-ca-client enroll -u https://peer0:peer0pw@localhost:12054 --caname ca-org5 -M "${PWD}/../organizations/peerOrganizations/org5.example.com/peers/peer0.org5.example.com/msp" --tls.certfiles "${PWD}/fabric-ca/org5/tls-cert.pem"
+	fabric-ca-client enroll -u https://peer0:peer0pw@localhost:13054 --caname ca-org5 -M "${PWD}/../organizations/peerOrganizations/org5.example.com/peers/peer0.org5.example.com/msp" --tls.certfiles "${PWD}/fabric-ca/org5/tls-cert.pem"
   { set +x; } 2>/dev/null
 
   cp "${PWD}/../organizations/peerOrganizations/org5.example.com/msp/config.yaml" "${PWD}/../organizations/peerOrganizations/org5.example.com/peers/peer0.org5.example.com/msp/config.yaml"
 
   infoln "Generating the peer0-tls certificates, use --csr.hosts to specify Subject Alternative Names"
   set -x
-  fabric-ca-client enroll -u https://peer0:peer0pw@localhost:12054 --caname ca-org5 -M "${PWD}/../organizations/peerOrganizations/org5.example.com/peers/peer0.org5.example.com/tls" --enrollment.profile tls --csr.hosts peer0.org5.example.com --csr.hosts localhost --tls.certfiles "${PWD}/fabric-ca/org5/tls-cert.pem"
+  fabric-ca-client enroll -u https://peer0:peer0pw@localhost:13054 --caname ca-org5 -M "${PWD}/../organizations/peerOrganizations/org5.example.com/peers/peer0.org5.example.com/tls" --enrollment.profile tls --csr.hosts peer0.org5.example.com --csr.hosts localhost --tls.certfiles "${PWD}/fabric-ca/org5/tls-cert.pem"
   { set +x; } 2>/dev/null
 
 
@@ -73,14 +73,14 @@ function createOrg5 {
 
   infoln "Generating the user msp"
   set -x
-	fabric-ca-client enroll -u https://user1:user1pw@localhost:12054 --caname ca-org5 -M "${PWD}/../organizations/peerOrganizations/org5.example.com/users/User1@org5.example.com/msp" --tls.certfiles "${PWD}/fabric-ca/org5/tls-cert.pem"
+	fabric-ca-client enroll -u https://user1:user1pw@localhost:13054 --caname ca-org5 -M "${PWD}/../organizations/peerOrganizations/org5.example.com/users/User1@org5.example.com/msp" --tls.certfiles "${PWD}/fabric-ca/org5/tls-cert.pem"
   { set +x; } 2>/dev/null
 
   cp "${PWD}/../organizations/peerOrganizations/org5.example.com/msp/config.yaml" "${PWD}/../organizations/peerOrganizations/org5.example.com/users/User1@org5.example.com/msp/config.yaml"
 
   infoln "Generating the org admin msp"
   set -x
-	fabric-ca-client enroll -u https://org5admin:org5adminpw@localhost:12054 --caname ca-org5 -M "${PWD}/../organizations/peerOrganizations/org5.example.com/users/Admin@org5.example.com/msp" --tls.certfiles "${PWD}/fabric-ca/org5/tls-cert.pem"
+	fabric-ca-client enroll -u https://org5admin:org5adminpw@localhost:13054 --caname ca-org5 -M "${PWD}/../organizations/peerOrganizations/org5.example.com/users/Admin@org5.example.com/msp" --tls.certfiles "${PWD}/fabric-ca/org5/tls-cert.pem"
   { set +x; } 2>/dev/null
 
   cp "${PWD}/../organizations/peerOrganizations/org5.example.com/msp/config.yaml" "${PWD}/../organizations/peerOrganizations/org5.example.com/users/Admin@org5.example.com/msp/config.yaml"
