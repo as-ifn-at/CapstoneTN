@@ -26,9 +26,9 @@ function yaml_ccp {
         ccp-template.yaml | sed -e $'s/\\\\n/\\\n          /g'
 }
 
-ORG=3
-P0PORT=12051
-CAPORT=12054
+ORG=5
+P0PORT=13051
+CAPORT=13054
 PEERPEM=../organizations/peerOrganizations/org5.example.com/tlsca/tlsca.org5.example.com-cert.pem
 CAPEM=../organizations/peerOrganizations/org5.example.com/ca/ca.org5.example.com-cert.pem
 
