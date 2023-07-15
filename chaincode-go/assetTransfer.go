@@ -12,12 +12,15 @@ import (
 )
 
 func main() {
-	assetChaincode, err := contractapi.NewChaincode(&chaincode.SmartContract{})
+	// assetChaincode, err := contractapi.NewChaincode(&chaincode.SmartContract{})
+	chaincode, err := contractapi.NewChaincode(&chaincode.SmartContract{}, &chaincode.UserRegistrationContract{}, &chaincode.ERC20TokenContract{})
 	if err != nil {
 		log.Panicf("Error creating asset-transfer-basic chaincode: %v", err)
 	}
 
-	if err := assetChaincode.Start(); err != nil {
+	// chaincode, err := contractapi.NewChaincode(&CashbackTokenContract{}, &UserRegistrationContract{})
+
+	if err := chaincode.Start(); err != nil {
 		log.Panicf("Error starting asset-transfer-basic chaincode: %v", err)
 	}
 }

@@ -12,6 +12,77 @@ type SmartContract struct {
 	contractapi.Contract
 }
 
+type User struct {
+	ObjectType       string   `json:"docType"`
+	Name             string   `json:"name"`
+	Username         string   `json:"username"`
+	Balance          float64  `json:"balance"`
+	Password         string   `json:"password"`
+	ProductsBought   []string `json:"productsBought"`
+	ProductsReturned []string `json:"productsReturned"`
+	Cashback         int      `json:"cashback"`
+}
+
+type UserRegistrationContract struct {
+	contractapi.Contract
+}
+
+func (c *UserRegistrationContract) RegisterUser(ctx contractapi.TransactionContextInterface) error {
+	transientData, err := ctx.GetStub().GetTransient()
+	if err != nil {
+		return fmt.Errorf("failed to get transient data: %w", err)
+	}
+
+	if _, ok := transientData["name"]; !ok {
+		return fmt.Errorf("name is required in transient data")
+	}
+	if _, ok := transientData["username"]; !ok {
+		return fmt.Errorf("username is required in transient data")
+	}
+	if _, ok := transientData["password"]; !ok {
+		return fmt.Errorf("password is required in transient data")
+	}
+	if _, ok := transientData["balance"]; !ok {
+		return fmt.Errorf("balance is required in transient data")
+	}
+
+	name := string(transientData["name"])
+	username := string(transientData["username"])
+	password := string(transientData["password"])
+	balance := float64(transientData["balance"][0])
+
+	existing, err := ctx.GetStub().GetState(username)
+	if err != nil {
+		return fmt.Errorf("failed to read from world state: %w", err)
+	}
+	if existing != nil {
+		return fmt.Errorf("user with username %s already exists", username)
+	}
+
+	user := User{
+		ObjectType:       "user",
+		Name:             name,
+		Username:         username,
+		Balance:          balance,
+		Password:         password,
+		ProductsBought:   []string{},
+		ProductsReturned: []string{},
+		Cashback:         0,
+	}
+
+	userBytes, err := json.Marshal(user)
+	if err != nil {
+		return fmt.Errorf("failed to marshal user: %w", err)
+	}
+
+	err = ctx.GetStub().PutPrivateData("collectionUser", username, userBytes)
+	if err != nil {
+		return fmt.Errorf("failed to put user on private data: %w", err)
+	}
+
+	return nil
+}
+
 // Asset describes basic details of what makes up a simple asset
 // Insert struct field in alphabetic order => to achieve determinism across languages
 // golang keeps the order when marshal to json but doesn't order automatically
